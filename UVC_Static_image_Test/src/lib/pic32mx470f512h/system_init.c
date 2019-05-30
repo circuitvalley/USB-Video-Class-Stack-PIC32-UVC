@@ -451,7 +451,7 @@ USB_DEVICE_CONFIGURATION_DESCRIPTORS_TABLE fullSpeedConfigDescSet[1] =
     {
         sizeof(sd002),
         USB_DESCRIPTOR_STRING,
-		{'S','i','m','p','l','e',' ','W','i','n','U','S','B',' ','D','e','v','i','c','e',' ','D','e','m','o'}
+		{'C','i','r','c','u','i','t','V','a','l','l','y',' ','U','S','B',' ','F','S',' ','U','V','C',' ',' '}
     }; 
 
 /***************************************
