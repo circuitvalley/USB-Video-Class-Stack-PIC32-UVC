@@ -3929,7 +3929,7 @@ uint16_t PLIB_DMA_ChannelXSourceSizeGet (   DMA_MODULE_ID index,
 
 void PLIB_DMA_ChannelXSourceSizeSet (   DMA_MODULE_ID index,
                                         DMA_CHANNEL dmaChannel,
-										uint16_t sourceSize);
+										uint32_t sourceSize);
 
 
 //******************************************************************************
@@ -4019,7 +4019,7 @@ uint16_t PLIB_DMA_ChannelXDestinationSizeGet (  DMA_MODULE_ID index,
 
 void PLIB_DMA_ChannelXDestinationSizeSet (  DMA_MODULE_ID index,
                                             DMA_CHANNEL dmaChannel,
-                                            uint16_t destinationSize);
+                                            uint32_t destinationSize);
 
 
 //******************************************************************************

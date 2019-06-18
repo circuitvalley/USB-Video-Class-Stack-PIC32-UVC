@@ -686,9 +686,9 @@ void SYS_DMA_ChannelTransferAdd
 
     /* Set the transfer paramteters */
     PLIB_DMA_ChannelXSourceStartAddressSet(DMA_ID_0, channelNumber, (uint32_t) srcAddr);
-    PLIB_DMA_ChannelXSourceSizeSet(DMA_ID_0, channelNumber, (uint16_t) srcSize);
+    PLIB_DMA_ChannelXSourceSizeSet(DMA_ID_0, channelNumber, (uint32_t) srcSize);
     PLIB_DMA_ChannelXDestinationStartAddressSet(DMA_ID_0, channelNumber,(uint32_t) destAddr);
-    PLIB_DMA_ChannelXDestinationSizeSet(DMA_ID_0, channelNumber, (uint16_t) destSize);
+    PLIB_DMA_ChannelXDestinationSizeSet(DMA_ID_0, channelNumber, (uint32_t) destSize);
     PLIB_DMA_ChannelXCellSizeSet(DMA_ID_0, channelNumber,(uint16_t) cellSize);
 
     /* Enable the channel */
@@ -740,7 +740,7 @@ void SYS_DMA_ChannelTransferSet
 
     /* Set the transfer parameters */
     PLIB_DMA_ChannelXSourceStartAddressSet(DMA_ID_0, channelNumber, (uint32_t) srcAddr);
-    PLIB_DMA_ChannelXSourceSizeSet(DMA_ID_0, channelNumber, (uint16_t) srcSize);
+    PLIB_DMA_ChannelXSourceSizeSet(DMA_ID_0, channelNumber, (uint32_t) srcSize);
     PLIB_DMA_ChannelXDestinationStartAddressSet(DMA_ID_0, channelNumber,(uint32_t) destAddr);
     PLIB_DMA_ChannelXDestinationSizeSet(DMA_ID_0, channelNumber, (uint16_t) destSize);
     PLIB_DMA_ChannelXCellSizeSet(DMA_ID_0, channelNumber,(uint16_t) cellSize);

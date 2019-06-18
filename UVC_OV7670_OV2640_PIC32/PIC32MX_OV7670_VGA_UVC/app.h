@@ -114,13 +114,9 @@ typedef struct
 {
    /* Device layer handle returned by device layer open function */
     USB_DEVICE_HANDLE usbDevHandle;
-    
     DRV_HANDLE pmpDrvHandle;
-    
     DRV_HANDLE drvI2CHandle;
-    
     SYS_DMA_CHANNEL_HANDLE DMAChannelHandle;
-
     /* Application state*/
     APP_STATES state;
 
@@ -156,11 +152,6 @@ typedef struct
 
     USB_DEVICE_VIDEO_TRANSFER_HANDLE writeTransferHandle1;
 
-    DRV_HANDLE usartBufferHandle;
-    /* Set the USART handler to invalid */
-    DRV_HANDLE usartHandle;
-    
-    bool drvBufferEventComplete;
 } APP_DATA;
 
 
@@ -243,31 +234,9 @@ void APP_Initialize ( void );
     This routine must be called from SYS_Tasks() routine.
  */
 
-
-typedef struct line_data_s
-{
-    uint8_t * const data ;
-    uint16_t available_length;
-    uint16_t line_number; //actual line number of image 
-    struct  line_data_s  * const next;
-}line_data_t;
-
 void APP_Tasks ( void );
-void printf32(char *format, ...);
-
-#define MAX_LINES_BUFER 16
-#define MAX_LINE_NUMBER UVC_HEIGHT
-
-#define LINE_LENGTH_QVGA 640
-#define LINE_LENGTH_VGA 1280
 
 
-//#define LINE_LENGTH  LINE_LENGTH_QVGA
-#define LINE_LENGTH  LINE_LENGTH_VGA
-
-
-#define APP_DRV_CONTEXT         1
-#define APP_USR_CONTEXT         2
 #endif /* _APP_H */
 /*******************************************************************************
  End of File

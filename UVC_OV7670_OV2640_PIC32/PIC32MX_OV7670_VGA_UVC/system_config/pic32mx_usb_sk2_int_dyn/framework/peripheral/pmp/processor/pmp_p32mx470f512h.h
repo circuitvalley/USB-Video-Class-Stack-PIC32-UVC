@@ -131,7 +131,7 @@ typedef enum {
 } PMP_CHIPSELECT_FUNCTION;
 
 typedef enum {
-
+    PMP_PMA_NULL  = 0x0,
     PMP_PMA0_PORT = 0x1,
     PMP_PMA1_PORT = 0x2,
     PMP_PMA2_PORT = 0x4,

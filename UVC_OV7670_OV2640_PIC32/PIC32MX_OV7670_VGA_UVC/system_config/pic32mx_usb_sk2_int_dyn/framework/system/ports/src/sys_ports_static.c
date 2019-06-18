@@ -133,10 +133,13 @@ void SYS_PORTS_Initialize(void)
 
 
     /* PPS Input Remapping */
+  //  PLIB_PORTS_RemapInput(PORTS_ID_0, INPUT_FUNC_SDI2, INPUT_PIN_RPG7);
 
     /* PPS Output Remapping */
+    SYS_PORTS_RemapOutput(PORTS_ID_0, OUTPUT_FUNC_REFCLKO, OUTPUT_PIN_RPD9);
 
-    
+//        PLIB_PORTS_PinModeSelect(PORTS_ID_0, PORTS_ANALOG_PIN_17, PORTS_PIN_MODE_DIGITAL);
+
 }
 
 /******************************************************************************

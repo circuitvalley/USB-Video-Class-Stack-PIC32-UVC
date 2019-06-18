@@ -49,6 +49,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "system_config.h"
 #include "system_definitions.h"
 #include "usb/usb_video.h"
+#include "pmp/drv_pmp.h"
 
 // ****************************************************************************
 // ****************************************************************************
@@ -389,7 +390,7 @@ const uint8_t fullSpeedConfigurationDescriptor[]=
         0x5,        /* Endpoint Descriptor Type */
         0x81,             /* Endpoint address and description */
         USB_TRANSFER_TYPE_ISOCHRONOUS ,                           /* BULK End point */
-        0xFF,0x03,         /*  max packet size */       
+        DBVAL(VIDEO_PACKET_SIZE),         /*  max packet size */       
         0x01                            /* Servicing interval for data transfers */    
 };
 
@@ -451,7 +452,7 @@ USB_DEVICE_CONFIGURATION_DESCRIPTORS_TABLE fullSpeedConfigDescSet[1] =
     {
         sizeof(sd002),
         USB_DESCRIPTOR_STRING,
-		{'C','i','r','c','u','i','t','V','a','l','l','y',' ','U','S','B',' ','F','S',' ','U','V','C',' ',' '}
+		{'S','i','m','p','l','e',' ','W','i','n','U','S','B',' ','D','e','v','i','c','e',' ','D','e','m','o'}
     }; 
 
 /***************************************
@@ -521,6 +522,67 @@ const USB_DEVICE_INIT usbDevInitData =
 };
 // </editor-fold>
 
+
+//<editor-fold defaultstate="collapsed" desc="SYS_DMA Initialization Data">
+/*** System DMA Initialization Data ***/
+
+const SYS_DMA_INIT sysDmaInit =
+{
+        .sidl = SYS_DMA_SIDL_DISABLE,
+
+};
+// </editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc"DRV_PMP_INIT Initialization Data"
+/** System PMP Initialization Data*/
+ 
+
+const DRV_PMP_INIT sysPMPinit =
+{
+    .pmpID = DRV_PMP_INSTANCES_NUMBER,
+    .stopInIdle = true,
+    .muxMode = PMP_MUX_NONE,
+    .inputBuffer = PMP_INPUT_BUFFER_SCHMITT,
+    .polarity = 
+            {
+                .rwStrobePolarity = PMP_POLARITY_ACTIVE_LOW,    //RD pin not used
+                .writeEnableStrobePolarity = PMP_POLARITY_ACTIVE_HIGH,       //pixel clock from OV7670
+                .chipselect1Polarity = PMP_POLARITY_ACTIVE_HIGH,    //HREF Signal from OV7670, CS2 is not used 
+            },
+    .ports =   
+        {
+            .addressPortsMask = PMP_PMA_NULL,
+            .byteEnablePort = PORT_ENABLE,
+            .readWriteStrobe = PORT_DISABLE,
+            .writeEnableStrobe = PORT_ENABLE,
+        },
+};
+// </editor-fold>
+
+
+// *****************************************************************************
+// <editor-fold defaultstate="collapsed" desc="DRV_I2C Initialization Data">
+// *****************************************************************************
+/* I2C Driver Initialization Data
+ */
+
+const DRV_I2C_INIT drvI2C2InitData ={
+    .i2cId = DRV_I2C_PERIPHERAL_ID_IDX0,
+    .i2cMode = DRV_I2C_OPERATION_MODE_IDX0,
+    .portSCL = DRV_SCL_PORT_IDX0,
+    .pinSCL = DRV_SCL_PIN_POSITION_IDX0,
+    .portSDA = DRV_SDA_PORT_IDX0,
+    .pinSDA = DRV_SDA_PIN_POSITION_IDX0,
+    .baudRate = DRV_I2C_BAUD_RATE_IDX0,
+    .busspeed = DRV_I2C_SLEW_RATE_CONTROL_IDX0,
+    .buslevel = DRV_I2C_SMBus_SPECIFICATION_IDX0,
+    .mstrInterruptSource = DRV_I2C_MASTER_INT_SRC_IDX0,
+    .errInterruptSource = DRV_I2C_ERR_MX_INT_SRC_IDX0,
+};
+
+// </editor-fold>
+
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: System Initialization
@@ -553,15 +615,29 @@ void SYS_Initialize ( void* data )
     /* Initialize Drivers */
     /* Initialize USB Driver */ 
     sysObj.drvUSBObject = DRV_USBFS_Initialize(DRV_USBFS_INDEX_0, (SYS_MODULE_INIT *) &drvUSBInit);
+ 
+    sysObj.sysDma = SYS_DMA_Initialize((SYS_MODULE_INIT *)&sysDmaInit);
+    SYS_INT_VectorPrioritySet(INT_VECTOR_DMA2, INT_PRIORITY_LEVEL4);
+    SYS_INT_VectorSubprioritySet(INT_VECTOR_DMA2, INT_SUBPRIORITY_LEVEL0);
 
+    SYS_INT_SourceEnable(INT_SOURCE_DMA_2);
+     sysObj.sysPMP = DRV_PMP_Initialize(0,(SYS_MODULE_INIT *)&sysPMPinit);
+     sysObj.drvI2C2 = DRV_I2C_Initialize(DRV_I2C_INDEX_2, (const SYS_MODULE_INIT * const) &drvI2C2InitData);
+        SYS_INT_VectorPrioritySet(INT_VECTOR_I2C2, INT_PRIORITY_LEVEL1);
+    SYS_INT_VectorSubprioritySet(INT_VECTOR_I2C2, INT_SUBPRIORITY_LEVEL0);
     /* Initialize System Services */
 
+      SYS_INT_VectorPrioritySet(INT_VECTOR_INT0, INT_PRIORITY_LEVEL1);
+    SYS_INT_VectorSubprioritySet(INT_VECTOR_INT0, INT_SUBPRIORITY_LEVEL0);
+    SYS_INT_ExternalInterruptTriggerSet(INT_EXTERNAL_INT_SOURCE0,INT_EDGE_TRIGGER_FALLING);
+
+    
     /*** Interrupt Service Initialization Code ***/
     SYS_INT_Initialize();
 
     /* Initialize Middleware */
     /* Set priority of USB interrupt source */
-    SYS_INT_VectorPrioritySet(INT_VECTOR_USB1, INT_PRIORITY_LEVEL4);
+    SYS_INT_VectorPrioritySet(INT_VECTOR_USB1, INT_PRIORITY_LEVEL5);
 
     /* Set Sub-priority of USB interrupt source */
     SYS_INT_VectorSubprioritySet(INT_VECTOR_USB1, INT_SUBPRIORITY_LEVEL0);

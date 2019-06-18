@@ -96,7 +96,7 @@ PLIB_TEMPLATE uint16_t DMA_ChannelXSourceSizeGet_Default( DMA_MODULE_ID index , 
     Operation is atomic.
 */
 
-PLIB_TEMPLATE void DMA_ChannelXSourceSizeSet_Default( DMA_MODULE_ID index , DMA_CHANNEL channel , uint16_t sourceSize )
+PLIB_TEMPLATE void DMA_ChannelXSourceSizeSet_Default( DMA_MODULE_ID index , DMA_CHANNEL channel , uint32_t sourceSize )
 {
     volatile dma_ch_register_t *regs = (dma_ch_register_t *)(index + sizeof(dma_register_t) + channel * sizeof(dma_ch_register_t));
 

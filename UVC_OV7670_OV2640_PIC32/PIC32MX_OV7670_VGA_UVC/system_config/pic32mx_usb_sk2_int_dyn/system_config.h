@@ -89,7 +89,7 @@ extern "C" {
 #define SYS_CLK_CONFIG_SECONDARY_XTAL       32768ul
 
 /*** Ports System Service Configuration ***/
-#define SYS_PORT_A_ANSEL        0x3F00
+#define SYS_PORT_A_ANSEL        0x0000
 #define SYS_PORT_A_TRIS         0xFFFF
 #define SYS_PORT_A_LAT          0x0000
 #define SYS_PORT_A_ODC          0x0000
@@ -97,7 +97,7 @@ extern "C" {
 #define SYS_PORT_A_CNPD         0x0000
 #define SYS_PORT_A_CNEN         0x0000
 
-#define SYS_PORT_B_ANSEL        0xFFDF
+#define SYS_PORT_B_ANSEL        0x0000
 #define SYS_PORT_B_TRIS         0xFFDF
 #define SYS_PORT_B_LAT          0x0000
 #define SYS_PORT_B_ODC          0x0000
@@ -105,7 +105,7 @@ extern "C" {
 #define SYS_PORT_B_CNPD         0x0000
 #define SYS_PORT_B_CNEN         0x0000
 
-#define SYS_PORT_C_ANSEL        0xFFE1
+#define SYS_PORT_C_ANSEL        0x0000
 #define SYS_PORT_C_TRIS         0xFFFF
 #define SYS_PORT_C_LAT          0x0000
 #define SYS_PORT_C_ODC          0x0000
@@ -113,15 +113,15 @@ extern "C" {
 #define SYS_PORT_C_CNPD         0x0000
 #define SYS_PORT_C_CNEN         0x0000
 
-#define SYS_PORT_D_ANSEL        0x0008
-#define SYS_PORT_D_TRIS         0xFFF8
+#define SYS_PORT_D_ANSEL        0x0000
+#define SYS_PORT_D_TRIS         0xFFF9
 #define SYS_PORT_D_LAT          0x0000
 #define SYS_PORT_D_ODC          0x0000
 #define SYS_PORT_D_CNPU         0x20C0
 #define SYS_PORT_D_CNPD         0x0000
 #define SYS_PORT_D_CNEN         0x0000
 
-#define SYS_PORT_E_ANSEL        0xFCF4
+#define SYS_PORT_E_ANSEL        0x0000
 #define SYS_PORT_E_TRIS         0xFFFF
 #define SYS_PORT_E_LAT          0x0000
 #define SYS_PORT_E_ODC          0x0000
@@ -207,10 +207,10 @@ extern "C" {
 #define DBVAL(x) (x & 0xFF),((x >> 8) & 0xFF),((x >> 16) & 0xFF),((x >> 24) & 0xFF)
 
 
-#define WIDTH                                         (unsigned int)160
-#define HEIGHT                                        (unsigned int)120
-#define CAM_FPS                                       26
-#define VIDEO_PACKET_SIZE                             (unsigned int)(768+2)//128+130
+#define WIDTH                                         (unsigned int)186
+#define HEIGHT                                        (unsigned int)145
+#define CAM_FPS                                       10
+#define VIDEO_PACKET_SIZE                             (unsigned int)(540+2)//
 #define MIN_BIT_RATE                                  (unsigned long)(WIDTH*HEIGHT*16*CAM_FPS)//16 bit
 #define MAX_BIT_RATE                                  (unsigned long)(WIDTH*HEIGHT*16*CAM_FPS)
 #define MAX_FRAME_SIZE                                (unsigned long)(WIDTH*HEIGHT*2)//yuy2
@@ -230,6 +230,31 @@ extern "C" {
 
 #define USB_DEVICE_SOF_EVENT_ENABLE
 
+#define DRV_I2C_INTERRUPT_MODE                                  true
+#define DRV_I2C_CLIENTS_NUMBER                                  1
+#define DRV_I2C_INSTANCES_NUMBER                                3
+    
+#define DRV_I2C_PERIPHERAL_ID_IDX0                              I2C_ID_2
+#define DRV_I2C_OPERATION_MODE_IDX0                             DRV_I2C_MODE_MASTER
+#define DRV_SCL_PORT_IDX0                                       PORT_CHANNEL_F
+#define DRV_SCL_PIN_POSITION_IDX0                               PORTS_BIT_POS_4
+#define DRV_SDA_PORT_IDX0                                       PORT_CHANNEL_F
+#define DRV_SDA_PIN_POSITION_IDX0                               PORTS_BIT_POS_5
+#define DRV_I2C_BIT_BANG_IDX0                                   false
+#define DRV_I2C_STOP_IN_IDLE_IDX0                               false
+#define DRV_I2C_SMBus_SPECIFICATION_IDX0                        false
+#define DRV_I2C_BAUD_RATE_IDX0                                  100000
+#define DRV_I2C_BRG_CLOCK_IDX0                                  SYS_CLK_BUS_PERIPHERAL_1
+#define DRV_I2C_SLEW_RATE_CONTROL_IDX0                          false
+#define DRV_I2C_MASTER_INT_SRC_IDX0                             INT_SOURCE_I2C_2_MASTER
+#define DRV_I2C_SLAVE_INT_SRC_IDX0
+#define DRV_I2C_ERR_MX_INT_SRC_IDX0                             INT_SOURCE_I2C_2_ERROR
+#define DRV_I2C_INT_VECTOR_IDX0                                 INT_VECTOR_I2C2
+#define DRV_I2C_ISR_VECTOR_IDX0                                 _I2C_2_VECTOR
+#define DRV_I2C_INT_PRIORITY_IDX0                               INT_PRIORITY_LEVEL1
+#define DRV_I2C_INT_SUB_PRIORITY_IDX0                           INT_SUBPRIORITY_LEVEL0
+#define DRV_I2C_POWER_STATE_IDX0                                SYS_MODULE_POWER_RUN_FULL
+    
 // *****************************************************************************
 /* BSP Configuration Options
 */
@@ -252,7 +277,11 @@ extern "C" {
 #define APP_EP_BULK_OUT 1
 
 #define APP_EP_INTERRUPT_IN 2
-
+    
+#define PMP_DEVICE_INDEX_0          0
+#define DRV_PMP_INSTANCES_NUMBER    1
+#define DRV_PMP_CLIENTS_NUMBER      2
+#define DRV_PMP_QUEUE_SIZE          8
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Configuration

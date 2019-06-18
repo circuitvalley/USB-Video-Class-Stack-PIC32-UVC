@@ -55,6 +55,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "system/ports/sys_ports.h"
 #include "usb/usbfs/drv_usbfs.h"
 #include "usb/usb_device.h"
+#include "system/dma/sys_dma.h"
+#include "i2c/drv_i2c.h"
 #include "app.h"
 
 
@@ -93,8 +95,10 @@ typedef struct
     
     SYS_MODULE_OBJ  usbDevObject0;
 
-
-
+    SYS_MODULE_OBJ  sysDma;
+    
+    SYS_MODULE_OBJ  sysPMP;
+    SYS_MODULE_OBJ drvI2C2;
 } SYSTEM_OBJECTS;
 
 

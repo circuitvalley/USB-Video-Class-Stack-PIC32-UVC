@@ -883,7 +883,7 @@ PLIB_INLINE_API uint16_t PLIB_DMA_ChannelXSourceSizeGet(DMA_MODULE_ID index, DMA
      return DMA_ChannelXSourceSizeGet_Default(index, dmaChannel);
 }
 
-PLIB_INLINE_API void PLIB_DMA_ChannelXSourceSizeSet(DMA_MODULE_ID index, DMA_CHANNEL dmaChannel, uint16_t sourceSize)
+PLIB_INLINE_API void PLIB_DMA_ChannelXSourceSizeSet(DMA_MODULE_ID index, DMA_CHANNEL dmaChannel, uint32_t sourceSize)
 {
      DMA_ChannelXSourceSizeSet_Default(index, dmaChannel, sourceSize);
 }
@@ -898,7 +898,7 @@ PLIB_INLINE_API uint16_t PLIB_DMA_ChannelXDestinationSizeGet(DMA_MODULE_ID index
      return DMA_ChannelXDestinationSizeGet_Default(index, dmaChannel);
 }
 
-PLIB_INLINE_API void PLIB_DMA_ChannelXDestinationSizeSet(DMA_MODULE_ID index, DMA_CHANNEL dmaChannel, uint16_t destinationSize)
+PLIB_INLINE_API void PLIB_DMA_ChannelXDestinationSizeSet(DMA_MODULE_ID index, DMA_CHANNEL dmaChannel, uint32_t destinationSize)
 {
      DMA_ChannelXDestinationSizeSet_Default(index, dmaChannel, destinationSize);
 }

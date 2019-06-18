@@ -98,14 +98,18 @@ void SYS_CLK_Initialize( const SYS_CLK_INIT const * clkInit )
 
     /* Enable Peripheral Bus 1 */
     PLIB_OSC_PBClockDivisorSet (OSC_ID_0, 0, 1 );
+    PLIB_OSC_ReferenceOscDisable( OSC_ID_0, OSC_REFERENCE_1 );
 
+    PLIB_OSC_ReferenceOscDivisorValueSet(OSC_ID_0, OSC_REFERENCE_1, 7); // 115.2M/2x(7+(102/512))  -> 115.2M /14.4 --> 8Mhz
+    PLIB_OSC_ReferenceOscTrimSet(OSC_ID_0, OSC_REFERENCE_1, 102);
+    PLIB_OSC_ReferenceOscBaseClockSelect(OSC_ID_0, OSC_REFERENCE_1, OSC_REF_BASECLOCK_SYSPLLOUT);
  
-    /* Disable REFCLKO1*/
-    PLIB_OSC_ReferenceOscDisable ( OSC_ID_0, OSC_REFERENCE_1 );
-    /* Disable REFCLK1_OE*/
-    PLIB_OSC_ReferenceOutputDisable ( OSC_ID_0, OSC_REFERENCE_1 );
+    /* Enable REFCLKO1*/
+    PLIB_OSC_ReferenceOscEnable( OSC_ID_0, OSC_REFERENCE_1 );
+    /* Enable REFCLK1_OE*/
+    PLIB_OSC_ReferenceOutputEnable( OSC_ID_0, OSC_REFERENCE_1 );
 
-    SYS_DEVCON_SystemLock ( );
+    SYS_DEVCON_SystemLock( );
 }
 
 //******************************************************************************
